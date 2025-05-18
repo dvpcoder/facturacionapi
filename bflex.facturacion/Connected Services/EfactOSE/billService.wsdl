@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.sunat.gob.pe" targetNamespace="http://service.sunat.gob.pe" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://ose.efact.pe:80/ol-ti-itcpe/billService?xsd=1" namespace="http://service.sunat.gob.pe" />
+    </xsd:schema>
+  </types>
+  <message name="sendBill">
+    <part name="fileName" type="xsd:string" />
+    <part name="contentFile" type="xsd:base64Binary" />
+  </message>
+  <message name="sendBillResponse">
+    <part name="applicationResponse" type="xsd:base64Binary" />
+  </message>
+  <message name="sendSummary">
+    <part name="fileName" type="xsd:string" />
+    <part name="contentFile" type="xsd:base64Binary" />
+  </message>
+  <message name="sendSummaryResponse">
+    <part name="ticket" type="xsd:string" />
+  </message>
+  <message name="sendPack">
+    <part name="fileName" type="xsd:string" />
+    <part name="contentFile" type="xsd:base64Binary" />
+  </message>
+  <message name="sendPackResponse">
+    <part name="ticket" type="xsd:string" />
+  </message>
+  <message name="getStatusCdr">
+    <part name="rucComprobante" type="xsd:string" />
+    <part name="tipoComprobante" type="xsd:string" />
+    <part name="serieComprobante" type="xsd:string" />
+    <part name="numeroComprobante" type="xsd:int" />
+  </message>
+  <message name="getStatusCdrResponse">
+    <part name="document" type="xsd:base64Binary" />
+  </message>
+  <message name="getStatus">
+    <part name="ticket" type="xsd:string" />
+  </message>
+  <message name="getStatusResponse">
+    <part name="status" type="tns:statusResponse" />
+  </message>
+  <portType name="BillService">
+    <operation name="sendBill" parameterOrder="fileName contentFile">
+      <input xmlns:ns1="http://www.w3.org/2007/05/addressing/metadata" ns1:Action="urn:sendBill" message="tns:sendBill" />
+      <output xmlns:ns2="http://www.w3.org/2007/05/addressing/metadata" ns2:Action="http://service.sunat.gob.pe/BillService/sendBillResponse" message="tns:sendBillResponse" />
+    </operation>
+    <operation name="sendSummary" parameterOrder="fileName contentFile">
+      <input xmlns:ns3="http://www.w3.org/2007/05/addressing/metadata" ns3:Action="urn:sendSummary" message="tns:sendSummary" />
+      <output xmlns:ns4="http://www.w3.org/2007/05/addressing/metadata" ns4:Action="http://service.sunat.gob.pe/BillService/sendSummaryResponse" message="tns:sendSummaryResponse" />
+    </operation>
+    <operation name="sendPack" parameterOrder="fileName contentFile">
+      <input xmlns:ns5="http://www.w3.org/2007/05/addressing/metadata" ns5:Action="urn:sendPack" message="tns:sendPack" />
+      <output xmlns:ns6="http://www.w3.org/2007/05/addressing/metadata" ns6:Action="http://service.sunat.gob.pe/BillService/sendPackResponse" message="tns:sendPackResponse" />
+    </operation>
+    <operation name="getStatusCdr" parameterOrder="rucComprobante tipoComprobante serieComprobante numeroComprobante">
+      <input xmlns:ns7="http://www.w3.org/2007/05/addressing/metadata" ns7:Action="urn:getStatusCdr" message="tns:getStatusCdr" />
+      <output xmlns:ns8="http://www.w3.org/2007/05/addressing/metadata" ns8:Action="http://service.sunat.gob.pe/BillService/getStatusCdrResponse" message="tns:getStatusCdrResponse" />
+    </operation>
+    <operation name="getStatus">
+      <input xmlns:ns9="http://www.w3.org/2007/05/addressing/metadata" ns9:Action="urn:getStatus" message="tns:getStatus" />
+      <output xmlns:ns10="http://www.w3.org/2007/05/addressing/metadata" ns10:Action="http://service.sunat.gob.pe/BillService/getStatusResponse" message="tns:getStatusResponse" />
+    </operation>
+  </portType>
+</definitions>

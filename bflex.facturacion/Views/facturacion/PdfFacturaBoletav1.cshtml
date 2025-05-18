@@ -1,0 +1,174 @@
+﻿@model  bflex.facturacion.Models.ComprobanteVenta
+@using bflex.facturacion.Models;
+@{
+    string moneda = Model.CodigoMoneda == "PEN" ? "SOLES" : "DÓLARES AMERICANOS";
+    string simbolo = Model.CodigoMoneda == "PEN" ? "S/" : "$";
+}
+
+<style>
+    #detalle td, #detalle th {
+        border: 1px solid #000;
+        padding: 4px;
+        text-align: center;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xs-3">
+        <img src="@Url.Content(Model.comercio.RutaLogo)" style="max-width:100%;" />
+    </div>
+    <div class="col-xs-6" style="text-align:center; font-weight:bold; font-size:0.8em;">
+        <p style="font-size:1.8em">@Model.comercio.RazonSocial</p>
+        @if (Model.comercio.NombreComercial.Length > 1)
+        {
+            <p style="font-size:1.4em">@Model.comercio.NombreComercial</p>
+        }
+        <p>@Model.comercio.CalleFiscal @Model.comercio.UrbanizacionFiscal - @Model.comercio.DepartamentoFiscal - @Model.comercio.ProvinciaFiscal - @Model.comercio.DistritoFiscal - PERÚ.</p>
+        <p>Whatsapp: @Model.comercio.Celular</p>
+        <p>Email: @Model.comercio.Email</p>
+    </div>
+    <div class="col-xs-3" style="border:solid 1px #000; font-weight:bold; font-size:1.3em; text-align:center; padding-top:15px;">
+        <p>RUC: @Model.comercio.Ruc</p>
+        <p>@Model.TipoComprobante.nombre.ToUpper() ELECTRÓNICA</p>
+        <p>@Model.Serie - @Model.Numero</p>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px;">
+    <div class="row">
+        <div class="col-xs-2" style="font-weight:bold;">Cliente:</div>
+        <div class="col-xs-10">@Model.NombreCompletoCliente</div>
+    </div>
+
+    @if (Model.CodigoTipoComprobante == "01")
+    {
+        <div class="row">
+            <div class="col-xs-2" style="font-weight:bold;">Dirección:</div>
+            <div class="col-xs-10">@Model.DireccionCliente</div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-xs-2" style="font-weight:bold;">@(Model.TipoIdentidad):</div>
+        <div class="col-xs-4">@Model.DocumentoIdentidadCliente</div>
+        <div class="col-xs-2" style="font-weight:bold;">Moneda:</div>
+        <div class="col-xs-4">@moneda</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-2" style="font-weight:bold;">F. Emisión:</div>
+        <div class="col-xs-4">@Model.FechaEmision.ToString("dd/MM/yyyy")</div>
+        @*<div class="col-xs-4">@Model.FechaEmision.ToString("dd/MM/yyyy HH:mm")</div>*@
+        <div class="col-xs-2" style="font-weight:bold;">Forma de Pago:</div>
+        <div class="col-xs-4">@Model.FormaPago</div>
+    </div>
+    <div class="row">
+        @if (Model.FormaPago.Equals("Credito"))
+        {
+            <div class="col-xs-2" style="font-weight:bold;">Hora:</div>
+            <div class="col-xs-4">@Model.FechaEmision.ToShortTimeString()</div>
+            <div class="col-xs-2" style="font-weight:bold;">F.Vencimiento:</div>
+            <div class="col-xs-4">@Model.DetalleCuota[0].FechaPago.ToString("dd/MM/yyyy")</div>
+        }
+    </div>
+</div>
+
+<div class="row" style="margin-top:30px;">
+    <table id="detalle" style="width:100%">
+        <thead>
+            <tr style="font-weight:bold;">
+                <th>Código</th>
+                <th>Cantidad</th>
+                <th>U. Medida</th>
+                <th>Descripción</th>
+                <th>Valor Unit.</th>
+                <th>Precio Unit.</th>
+                <th>Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (bflex.facturacion.Models.DetalleComprobanteVenta detalle in Model.DetalleVenta)
+            {
+                decimal precioUnitario = detalle.Total / detalle.Cantidad;
+                <tr>
+                    <td>@detalle.CodigoProducto</td>
+                    @{ 
+                        string cantidad = (detalle.Cantidad % 1 > 0 ? detalle.Cantidad.ToString("0.0") : detalle.Cantidad.ToString("0"));
+                        string uniMed = (String.IsNullOrWhiteSpace(detalle.PresentacionUnidad) ? "Unid." : detalle.PresentacionUnidad);
+                    }
+                    <td>@cantidad</td>
+                    <td>@uniMed</td>
+                    <td style="text-align:left;">@detalle.NombreProducto</td>
+                    <td style="text-align:right;">@detalle.ValorUnitario.ToString("0.000")</td>
+                    <td style="text-align:right;">@precioUnitario.ToString("0.000")</td>
+                    <td style="text-align:right;">@detalle.Total.ToString("0.00")</td>
+                </tr>
+            }
+
+            <tr>
+                <td colspan="5" rowspan="3" style="text-align:left;"><span style="font-weight:bold;">SON: </span>@Model.MontoEnLetras @moneda</td>
+                <td style="text-align:left; font-weight:bold;">Op. Gravada: </td>
+                <td style="text-align:right;">@simbolo @Model.MontoGravado.ToString("0.00")</td>
+            </tr>
+            <tr>
+                <td style="text-align:left; font-weight:bold;">Op. Exonerada: </td>
+                <td style="text-align:right;">@simbolo @Model.MontoExonerado.ToString("0.00")</td>
+            </tr>
+            <tr>
+                <td style="text-align:left; font-weight:bold;">Op. Inafecta: </td>
+                <td style="text-align:right;">@simbolo @Model.MontoInafecto.ToString("0.00")</td>
+            </tr>
+            <tr>
+                <td colspan="5" rowspan="4" style="text-align:left;">
+                    <p><span style="font-weight:bold;">Observaciones: </span> @Model.Observaciones @(Model.Total == 0 ? "Transferencia a título gratuito." : "")</p>
+                    @if (Model.OrdenCompra != "")
+                    {
+                        <p><span style="font-weight:bold;">Orden Compra: </span>@Model.OrdenCompra</p>
+                    }
+                </td>
+                <td style="text-align:left; font-weight:bold;">IGV: </td>
+                <td style="text-align:right;">@simbolo @Model.MontoIgv.ToString("0.00")</td>
+            </tr>
+            <tr>
+                <td style="text-align:left; font-weight:bold;">ICBPER: </td>
+                <td style="text-align:right;">@simbolo @Model.MontoIcbper.ToString("0.00")</td>
+            </tr>
+            <tr>
+                <td style="text-align:left; font-weight:bold;">Otros Cargos: </td>
+                <td style="text-align:right;">@simbolo @Model.MontoCargoAdicional.ToString("0.00")</td>
+            </tr>
+            <tr>
+                <td style="text-align:left; font-weight:bold;">TOTAL: </td>
+                <td style="text-align:right;">@simbolo @Model.Total.ToString("0.00")</td>
+            </tr>
+
+            @if (Model.FormaPago.Equals("Credito"))
+            {
+                <tr>
+                    <td colspan="5" style="text-align:left; font-weight:bold;">Información del crédito</td>
+                    <td rowspan="@(Model.DetalleCuota.Count + 1)" colspan="2">&nbsp;</td>
+                </tr>
+                foreach(bflex.facturacion.Models.CuotaCredito cuota in Model.DetalleCuota)
+                {
+                    <tr>
+                        <td colspan="3" style="text-align:left;">Cuota @cuota.FechaPago.ToString("dd/MM/yyyy")</td>
+                        <td colspan="2" style="text-align:left;">@simbolo @cuota.Monto.ToString("0.00")</td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-xs-12" style="text-align:center;">
+        <img style="padding:15px;" src="@Url.Content(Model.RutaCarpetaArchivos + Model.ArchivoQr)" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12" style="font-size:0.8em;">
+        <p>Designado Emisor Electrónico según Resolución de Superintendencia @(Model.comercio.Normativa). Representacion impresa de @Model.TipoComprobante.nombre.ToUpper() ELECTRÓNICA.</p>
+        <p style="font-weight:bold;">Elaborado por @Model.comercio.ElaboradoPor</p>
+    </div>
+</div>

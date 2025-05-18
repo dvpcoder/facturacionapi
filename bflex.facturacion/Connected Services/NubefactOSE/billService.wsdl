@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsp200607="http://www.w3.org/2006/07/ws-policy" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:ns1="http://service.sunat.gob.pe" xmlns:p="http://www.w3.org/2001/XMLSchema" xmlns:wsp200409="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://service.sunat.gob.pe" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xs:schema xmlns:tns="http://service.sunat.gob.pe" targetNamespace="http://service.sunat.gob.pe" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getStatus" type="tns:getStatus" />
+      <xs:element name="getStatusResponse" type="tns:getStatusResponse" />
+      <xs:element name="sendBill" type="tns:sendBill" />
+      <xs:element name="sendBillResponse" type="tns:sendBillResponse" />
+      <xs:element name="sendPack" type="tns:sendPack" />
+      <xs:element name="sendPackResponse" type="tns:sendPackResponse" />
+      <xs:element name="sendSummary" type="tns:sendSummary" />
+      <xs:element name="sendSummaryResponse" type="tns:sendSummaryResponse" />
+      <xs:complexType name="sendSummary">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="fileName" type="xs:string" />
+          <xs:element xmlns:ns1="http://www.w3.org/2005/05/xmlmime" ns1:expectedContentTypes="application/octet-stream" minOccurs="0" name="contentFile" type="xs:base64Binary" />
+          <xs:element minOccurs="0" maxOccurs="1" name="partyType" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendSummaryResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ticket" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatus">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ticket" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatusResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="status" type="tns:statusResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="statusResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="content" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="statusCode" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendPack">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="fileName" type="xs:string" />
+          <xs:element xmlns:ns2="http://www.w3.org/2005/05/xmlmime" ns2:expectedContentTypes="application/octet-stream" minOccurs="0" name="contentFile" type="xs:base64Binary" />
+          <xs:element minOccurs="0" maxOccurs="1" name="partyType" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendPackResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ticket" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendBill">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="fileName" type="xs:string" />
+          <xs:element xmlns:ns3="http://www.w3.org/2005/05/xmlmime" ns3:expectedContentTypes="application/octet-stream" minOccurs="0" name="contentFile" type="xs:base64Binary" />
+          <xs:element minOccurs="0" maxOccurs="1" name="partyType" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendBillResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="applicationResponse" type="xs:base64Binary" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="getStatusCdr" type="tns:getStatusCdr" />
+      <xs:element name="getStatusCdrResponse" type="tns:getStatusCdrResponse" />
+      <xs:complexType name="getStatusCdr">
+        <xs:sequence>
+          <xs:element name="rucComprobante" type="xs:string" />
+          <xs:element name="tipoComprobante" type="xs:string" />
+          <xs:element name="serieComprobante" type="xs:string" />
+          <xs:element name="numeroComprobante" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatusCdrResponse">
+        <xs:sequence>
+          <xs:element name="statusCdr" type="tns:statusCdr" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="statusCdr">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="content" type="xs:base64Binary" />
+          <xs:element name="statusCode" type="xs:string" />
+          <xs:element name="statusMessage" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getStatus">
+    <wsdl:part xmlns:xsns="http://service.sunat.gob.pe" name="parameters" element="xsns:getStatus" />
+  </wsdl:message>
+  <wsdl:message name="getStatusResponse">
+    <wsdl:part xmlns:xsns="http://service.sunat.gob.pe" name="parameters" element="xsns:getStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="sendBill">
+    <wsdl:part xmlns:xsns="http://service.sunat.gob.pe" name="parameters" element="xsns:sendBill" />
+  </wsdl:message>
+  <wsdl:message name="sendBillResponse">
+    <wsdl:part xmlns:xsns="http://service.sunat.gob.pe" name="parameters" element="xsns:sendBillResponse" />
+  </wsdl:message>
+  <wsdl:message name="sendPack">
+    <wsdl:part xmlns:xsns="http://service.sunat.gob.pe" name="parameters" element="xsns:sendPack" />
+  </wsdl:message>
+  <wsdl:message name="sendPackResponse">
+    <wsdl:part xmlns:xsns="http://service.sunat.gob.pe" name="parameters" element="xsns:sendPackResponse" />
+  </wsdl:message>
+  <wsdl:message name="sendSummary">
+    <wsdl:part xmlns:xsns="http://service.sunat.gob.pe" name="parameters" element="xsns:sendSummary" />
+  </wsdl:message>
+  <wsdl:message name="sendSummaryResponse">
+    <wsdl:part xmlns:xsns="http://service.sunat.gob.pe" name="parameters" element="xsns:sendSummaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="getStatusCdrRequest">
+    <wsdl:part name="parameters" element="ns1:getStatusCdr" />
+  </wsdl:message>
+  <wsdl:message name="getStatusCdrResponse">
+    <wsdl:part name="parameters" element="ns1:getStatusCdrResponse" />
+  </wsdl:message>
+  <wsdl:portType name="billService">
+    <wsdl:operation name="getStatus">
+      <wsdl:input name="getStatusRequest" message="ns1:getStatus" />
+      <wsdl:output name="getStatusResponse" message="ns1:getStatusResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="sendBill">
+      <wsdl:input name="sendBillRequest" message="ns1:sendBill" />
+      <wsdl:output name="sendBillResponse" message="ns1:sendBillResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="sendPack">
+      <wsdl:input name="sendPackRequest" message="ns1:sendPack" />
+      <wsdl:output name="sendPackResponse" message="ns1:sendPackResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="sendSummary">
+      <wsdl:input name="sendSummaryRequest" message="ns1:sendSummary" />
+      <wsdl:output name="sendSummaryResponse" message="ns1:sendSummaryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStatusCdr">
+      <wsdl:input message="ns1:getStatusCdrRequest" />
+      <wsdl:output message="ns1:getStatusCdrResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BillServicePortBinding" type="ns1:billService">
+    <soap11:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getStatus">
+      <soap11:operation soapAction="http://service.sunat.gob.pe/getStatus" />
+      <wsdl:input name="getStatusRequest">
+        <soap11:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getStatusResponse">
+        <soap11:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendBill">
+      <soap11:operation soapAction="http://service.sunat.gob.pe/sendBill" />
+      <wsdl:input name="sendBillRequest">
+        <soap11:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="sendBillResponse">
+        <soap11:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendPack">
+      <soap11:operation soapAction="http://service.sunat.gob.pe/sendPack" />
+      <wsdl:input name="sendPackRequest">
+        <soap11:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="sendPackResponse">
+        <soap11:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendSummary">
+      <soap11:operation soapAction="http://service.sunat.gob.pe/sendSummary" />
+      <wsdl:input name="sendSummaryRequest">
+        <soap11:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="sendSummaryResponse">
+        <soap11:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStatusCdr">
+      <soap11:operation soapAction="http://service.sunat.gob.pe/getStatusCdr" />
+      <wsdl:input>
+        <soap11:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap11:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="billService">
+    <wsdl:port name="BillServicePort" binding="ns1:BillServicePortBinding">
+      <soap11:address location="https://demo-ose.nubefact.com/ol-ti-itcpe/billService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
